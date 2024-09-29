@@ -1,0 +1,9 @@
+name: CatMenu
+version: '1.0-SNAPSHOT'
+main: org.LacyCat.catMenu.CatMenu
+api-version: '1.21'
+commands:
+  SpectatorCommand:
+    description: Spectator menu
+    usage: /spectatormenu
+
