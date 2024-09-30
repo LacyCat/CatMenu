@@ -22,7 +22,7 @@ public class SpectatorMenuEvent implements Listener {
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals(ChatColor.stripColor("Spectator Menu"))) {
+        if (event.getView().getTitle().equals(ChatColor.stripColor("SpectatorMenu"))) {
             event.setCancelled(true); // 인벤토리에서 아이템을 옮기지 못하게 방지
 
             if (event.getCurrentItem() == null) return;

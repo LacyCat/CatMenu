@@ -10,7 +10,7 @@ public class SpectatorMenu {
     private final Inventory inv;
 
     public SpectatorMenu() {
-        this.inv = Bukkit.createInventory(null, 9, "Spectator Menu");
+        this.inv = Bukkit.createInventory(null, 9, "SpectatorMenu");
 
         // 아이템을 추가하는 로직을 여기 추가할 수 있습니다.
         inv.setItem(1,ItemManager.Revive);
