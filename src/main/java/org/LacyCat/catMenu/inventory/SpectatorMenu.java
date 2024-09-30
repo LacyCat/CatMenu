@@ -14,6 +14,14 @@ public class SpectatorMenu {
 
         // 아이템을 추가하는 로직을 여기 추가할 수 있습니다.
         inv.setItem(1,ItemManager.Revive);
+        inv.setItem(2,ItemManager.Update);
+        inv.setItem(3,ItemManager.Update);
+        inv.setItem(4,ItemManager.Update);
+        inv.setItem(5,ItemManager.Update);
+        inv.setItem(6,ItemManager.Update);
+        inv.setItem(7,ItemManager.Information);
+        inv.setItem(8,ItemManager.Outline);
+        inv.setItem(9,ItemManager.Exit);
         // inv.setItem(slot, item); 형식으로 아이템을 추가할 수 있습니다.
     }
 

@@ -31,9 +31,10 @@ public class SpectatorMenuEvent implements Listener {
             ItemStack clickedItem = event.getCurrentItem();
 
             // 플레이어가 부활 아이템을 클릭했는지 확인
+            long currentTime = 0;
             if (clickedItem.isSimilar(ItemManager.Revive)) {
                 UUID playerUUID = player.getUniqueId();
-                long currentTime = System.currentTimeMillis();
+                currentTime = System.currentTimeMillis();
 
                 // 마지막 부활 시간을 가져옴
                 if (lastRespawnTimes.containsKey(playerUUID)) {
@@ -56,7 +57,17 @@ public class SpectatorMenuEvent implements Listener {
                 player.setHealth(player.getMaxHealth()); // 체력을 최대치로 회복
                 player.setGameMode(org.bukkit.GameMode.SURVIVAL); // 생존 모드로 변경
 
-                player.closeInventory(); // 인벤토리 닫기
+                player.closeInventory();// 인벤토리 닫기
+
+            } else if (clickedItem.isSimilar(ItemManager.Information)) {
+                player.sendMessage(
+                        ChatColor.GREEN + "버전: 1.0v (스냅샷)",
+                        ChatColor.LIGHT_PURPLE + "서버: lacycat.kro.kr:25565",
+                        ChatColor.RED + "시간: " + System.currentTimeMillis()
+                );
+
+            } else if (clickedItem.isSimilar(ItemManager.Exit)) {
+                player.closeInventory();
             }
         }
     }
