@@ -55,7 +55,7 @@ public class  ItemManager {
             ChatColor.AQUA+"클릭하면 정보를 표기합니다"
     );
     public static final ItemStack Outline = buildItem(
-            Material.CYAN_STAINED_GLASS,
+            Material.CYAN_STAINED_GLASS_PANE,
             1,
             ChatColor.DARK_RED+"아무 것도 없는 거",
             false,
@@ -73,5 +73,17 @@ public class  ItemManager {
             ChatColor.LIGHT_PURPLE+"뭐 말 그대로 나가기임",
             ChatColor.LIGHT_PURPLE+"뭐 더 없어",
             ChatColor.LIGHT_PURPLE+"..."
+    );
+
+    //여기부터 MainPANEL에 들어가는 아이템입니다
+    public static final ItemStack TpSpawn = buildItem(
+            Material.RED_BED,
+            1,
+            ChatColor.DARK_GREEN+"스폰포인트 가기",
+            false,
+            3,
+            ChatColor.DARK_GRAY+"지정된 침대나 ",
+            ChatColor.DARK_GRAY+"리스폰 정박기로 텔레포트합니다.",
+            ChatColor.RED+"만약 스폰포인트가 없다면 [0,0]으로 갑니다"
     );
 }

@@ -52,3 +52,5 @@ tasks.jar{
     archiveFileName = 'CatMenu 1.0v.jar'
     destinationDirectory = file('D:\\outPlug')
 }
+
+implementation 'com.google.code.gson:gson:2.8.9'

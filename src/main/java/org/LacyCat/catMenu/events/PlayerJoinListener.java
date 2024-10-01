@@ -1,5 +1,6 @@
 package org.LacyCat.catMenu.events;
 
+import org.LacyCat.catMenu.inventory.MainMenu;
 import org.LacyCat.catMenu.inventory.SpectatorMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,6 +22,11 @@ public class PlayerJoinListener implements Listener {
                 SpectatorMenu menu = new SpectatorMenu();
                 menu.open(player); // 관전자 전용 메뉴 열기
             }, 20L); // 20 ticks (1초) 후에 메뉴를 열도록 지연시킴
+        } else if (player.getGameMode() != GameMode.SPECTATOR) {
+            Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("CatMenu"), () -> {
+                MainMenu menu = new MainMenu();
+                menu.open(player);
+            }, 20L);
         }
     }
 }

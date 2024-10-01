@@ -3,6 +3,7 @@ package org.LacyCat.catMenu.events;
 import org.LacyCat.catMenu.ItemManager;
 import org.LacyCat.catMenu.inventory.SpectatorMenu;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,9 +17,11 @@ public class SpectatorMenuEvent implements Listener {
 
     // 플레이어의 마지막 부활 시간을 저장하는 HashMap
     private final HashMap<UUID, Long> lastRespawnTimes = new HashMap<>();
+    private HashMap<UUID, Long> cooldowns = new HashMap<>();
 
     // 24시간 (하루) 제한 시간 (밀리초)
     private final long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+    private static final long COOLDOWN_TIME = 600 * 1000;
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
@@ -31,10 +34,9 @@ public class SpectatorMenuEvent implements Listener {
             ItemStack clickedItem = event.getCurrentItem();
 
             // 플레이어가 부활 아이템을 클릭했는지 확인
-            long currentTime = 0;
             if (clickedItem.isSimilar(ItemManager.Revive)) {
                 UUID playerUUID = player.getUniqueId();
-                currentTime = System.currentTimeMillis();
+               long currentTime = System.currentTimeMillis();
 
                 // 마지막 부활 시간을 가져옴
                 if (lastRespawnTimes.containsKey(playerUUID)) {
@@ -58,16 +60,41 @@ public class SpectatorMenuEvent implements Listener {
                 player.setGameMode(org.bukkit.GameMode.SURVIVAL); // 생존 모드로 변경
 
                 player.closeInventory();// 인벤토리 닫기
-
+                //정보 표시 아이템
             } else if (clickedItem.isSimilar(ItemManager.Information)) {
                 player.sendMessage(
                         ChatColor.GREEN + "버전: 1.0v (스냅샷)",
                         ChatColor.LIGHT_PURPLE + "서버: lacycat.kro.kr:25565",
                         ChatColor.RED + "시간: " + System.currentTimeMillis()
                 );
-
+                //나가기 아이템
             } else if (clickedItem.isSimilar(ItemManager.Exit)) {
                 player.closeInventory();
+            }
+        } else if(event.getView().getTitle().equals(ChatColor.stripColor("MainMenu"))) {
+            event.setCancelled(true);
+
+            if (event.getCurrentItem() == null) return;
+
+            Player player = (Player) event.getWhoClicked();
+            ItemStack clickedItem = event.getCurrentItem();
+
+            if (clickedItem.isSimilar(ItemManager.TpSpawn)) {
+                UUID playerUUID = player.getUniqueId();
+                long currentTime = System.currentTimeMillis();
+
+                if (cooldowns.containsKey(playerUUID)) {
+                    long lastUsed = cooldowns.get(playerUUID);
+                    if (currentTime - lastUsed < COOLDOWN_TIME) {
+                        long remainingTPTime = (COOLDOWN_TIME - (currentTime - lastUsed)) / 1000;
+                        player.sendMessage("스폰포인트로 텔포하기까지 "+ remainingTPTime + " 남음.");
+                        return;
+                    }
+                }
+                player.teleport(player.getBedSpawnLocation() != null ? player.getBedSpawnLocation() : player.getWorld().getSpawnLocation());
+                player.sendMessage("텔레포트 되었습니다!");
+
+                cooldowns.put(playerUUID, currentTime);
             }
         }
     }
